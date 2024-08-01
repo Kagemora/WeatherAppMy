@@ -1,10 +1,8 @@
-package com.example.weatherappmy
+package com.example.weatherappmy.presentation
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import com.example.weatherappmy.R
 
 class MainActivity : AppCompatActivity() {
 
