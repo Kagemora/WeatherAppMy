@@ -5,6 +5,7 @@ import com.example.weatherappmy.domain.entities.Forecast
 import com.example.weatherappmy.domain.entities.HourlyForecast
 import com.example.weatherappmy.domain.entities.Weather
 import com.example.weatherappmy.domain.repository.WeatherRepository
+import java.util.Calendar
 import javax.inject.Inject
 
 class WeatherRepositoryImpl @Inject constructor(
@@ -18,9 +19,13 @@ class WeatherRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun getHourlyForecast(cityId: Int): List<HourlyForecast> {
+    override suspend fun getHourlyForecast(
+        cityId: Int,
+        selectedDay: Calendar
+    ): List<HourlyForecast> {
         TODO("Not yet implemented")
     }
+
 
     override suspend fun getDailyForecast(cityId: Int): List<DailyForecast> {
         TODO("Not yet implemented")
