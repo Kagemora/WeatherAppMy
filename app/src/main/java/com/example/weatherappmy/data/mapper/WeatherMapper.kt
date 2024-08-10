@@ -12,13 +12,14 @@ import com.example.weatherappmy.domain.entities.HourlyForecast
 import com.example.weatherappmy.domain.entities.Weather
 import java.util.Calendar
 import java.util.Date
+import java.util.TimeZone
 
 
 fun WeatherCurrentDto.toEntity(): Weather = currentDto.toEntity()
 
-fun WeatherForecastDto.toEntity(selectedDay: Calendar): Forecast = Forecast(
+fun WeatherForecastDto.toEntity(): Forecast = Forecast(
     currentWeather = currentDto.toEntity(),
-    hourlyForecast = getHourlyForecastForDay(selectedDay),
+    hourlyForecast = forecast.forecastDayDto.firstOrNull()?.hour?.map { it.toEntity() } ?: emptyList(),
     dailyForecast = forecast.forecastDayDto.drop(1).map { it.toEntity() }
 )
 
@@ -43,8 +44,17 @@ fun HoursDto.toEntity(): HourlyForecast = HourlyForecast(
     tempC = tempC
 )
 
+fun WeatherForecastDto.toDailyForecastList(): List<DailyForecast> =
+    forecast.forecastDayDto.map {
+        DailyForecast(
+            time = it.time.toCalendar(),
+            condition = it.day.conditionDto.text,
+            conditionUrl = it.day.conditionDto.icon.correctImageUrl(),
+            tempC = it.day.avgTempC
+        )
+    }
 // получить почасовой прогноз для выбранного дня
-private fun WeatherForecastDto.getHourlyForecastForDay(selectedDay: Calendar): List<HourlyForecast> {
+fun WeatherForecastDto.getHourlyForecastForDay(selectedDay: Calendar): List<HourlyForecast> {
     val selectedDayEpoch = selectedDay.timeInMillis / 1000
     return forecast.forecastDayDto
         .find { it.time.toCalendar().timeInMillis / 1000 == selectedDayEpoch }
