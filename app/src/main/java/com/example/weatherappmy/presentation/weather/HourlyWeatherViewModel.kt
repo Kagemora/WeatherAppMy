@@ -1,7 +1,10 @@
 package com.example.weatherappmy.presentation.weather
 
 import androidx.lifecycle.ViewModel
+import javax.inject.Inject
 
-class HourlyWeatherViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
+class HourlyWeatherViewModel @Inject constructor (
+
+) : ViewModel() {
+
 }
