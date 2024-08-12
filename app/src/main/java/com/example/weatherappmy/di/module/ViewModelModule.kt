@@ -27,17 +27,17 @@ interface ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(HourlyWeatherViewModel::class)
-    fun bindDailyWeatherViewModel(hourlyWeatherViewModel: HourlyWeatherViewModel): ViewModel
+    fun bindHourlyWeatherViewModel(hourlyWeatherViewModel: HourlyWeatherViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(SearchCityViewModel::class)
-    fun bindDailyWeatherViewModel(searchCityViewModel: SearchCityViewModel): ViewModel
+    fun bindSearchCityViewModel(searchCityViewModel: SearchCityViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(FavouritesCityViewModel::class)
-    fun bindDailyWeatherViewModel(favouritesCityViewModel: FavouritesCityViewModel): ViewModel
+    fun bindFavouritesCityViewModel(favouritesCityViewModel: FavouritesCityViewModel): ViewModel
 
 
 }
