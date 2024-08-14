@@ -92,6 +92,10 @@ dependencies {
     kapt(libs.google.dagger.android.processor)
     kapt(libs.google.dagger.compiler)
 
+    // view binding property delegate
+    implementation(libs.viewbindingpropertydelegate.full)
+    implementation(libs.viewbindingpropertydelegate.noreflection)
+
     //Test
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -99,7 +103,7 @@ dependencies {
 
     //Permissions
     implementation(libs.dexter)
-    
+
     //OutOfMemoryError
     implementation(libs.leakcanary.android)
 }
