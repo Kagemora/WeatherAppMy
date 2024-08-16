@@ -1,4 +1,4 @@
-package com.example.weatherappmy.presentation.weather
+package com.example.weatherappmy.presentation.weather.ui
 
 import com.example.weatherappmy.domain.entities.HourlyForecast
 

@@ -1,4 +1,4 @@
-package com.example.weatherappmy.presentation.search
+package com.example.weatherappmy.presentation.search.ui
 
 import com.example.weatherappmy.domain.entities.City
 

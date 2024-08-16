@@ -1,4 +1,4 @@
-package com.example.weatherappmy.presentation.favorites
+package com.example.weatherappmy.presentation.favorites.ui
 
 import com.example.weatherappmy.domain.entities.City
 
