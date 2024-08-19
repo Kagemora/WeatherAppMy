@@ -7,4 +7,13 @@ data class Weather(
     val condition: String,
     val conditionUrl: String,
     val tempC: Float
-)
+){
+    companion object {
+        val default = Weather(
+            time = Calendar.getInstance(),
+            condition = "Unknown",
+            conditionUrl = "",
+            tempC = 0.0f
+        )
+    }
+}

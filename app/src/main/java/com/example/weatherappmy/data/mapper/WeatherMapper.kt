@@ -2,7 +2,6 @@ package com.example.weatherappmy.data.mapper
 
 import com.example.weatherappmy.data.network.model.CurrentDto
 import com.example.weatherappmy.data.network.model.current.WeatherCurrentDto
-import com.example.weatherappmy.data.network.model.forecast.DayDto
 import com.example.weatherappmy.data.network.model.forecast.ForecastDayDto
 import com.example.weatherappmy.data.network.model.forecast.HoursDto
 import com.example.weatherappmy.data.network.model.forecast.WeatherForecastDto
@@ -12,14 +11,14 @@ import com.example.weatherappmy.domain.entities.HourlyForecast
 import com.example.weatherappmy.domain.entities.Weather
 import java.util.Calendar
 import java.util.Date
-import java.util.TimeZone
 
 
 fun WeatherCurrentDto.toEntity(): Weather = currentDto.toEntity()
 
 fun WeatherForecastDto.toEntity(): Forecast = Forecast(
     currentWeather = currentDto.toEntity(),
-    hourlyForecast = forecast.forecastDayDto.firstOrNull()?.hour?.map { it.toEntity() } ?: emptyList(),
+    hourlyForecast = forecast.forecastDayDto.firstOrNull()?.hour?.map { it.toEntity() }
+        ?: emptyList(),
     dailyForecast = forecast.forecastDayDto.drop(1).map { it.toEntity() }
 )
 
@@ -53,6 +52,7 @@ fun WeatherForecastDto.toDailyForecastList(): List<DailyForecast> =
             tempC = it.day.avgTempC
         )
     }
+
 // получить почасовой прогноз для выбранного дня
 fun WeatherForecastDto.getHourlyForecastForDay(selectedDay: Calendar): List<HourlyForecast> {
     val selectedDayEpoch = selectedDay.timeInMillis / 1000
