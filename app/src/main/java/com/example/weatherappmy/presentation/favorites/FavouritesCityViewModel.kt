@@ -13,9 +13,6 @@ import com.example.weatherappmy.domain.usecase.GetFavouriteCitiesUseCase
 import com.example.weatherappmy.domain.util.Result
 import com.example.weatherappmy.presentation.favorites.ui.CityWithWeather
 import com.example.weatherappmy.presentation.favorites.ui.UiState
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -43,35 +40,37 @@ class FavouritesCityViewModel @Inject constructor(
                     if (cities.value.isNullOrEmpty()) {
                         _uiState.value = UiState.Empty
                     } else {
+                        _uiState.value = UiState.Success(cities.value.map { CityWithWeather(it, Weather.default) })
                         loadWeatherForCities(cities.value)
                     }
                 }
-
                 is Result.Failure -> {
                     _uiState.value = UiState.Error("Failed to load favorite cities")
                 }
             }
         }
     }
-
-
     private fun loadWeatherForCities(cities: List<City>) {
-        viewModelScope.launch {
-            try {
-                val citiesWithWeather = cities.map { city ->
-                    async {
-                        when (val weatherResult = getCurrentWeatherUseCase(city.id)) {
-                            is Result.Success -> CityWithWeather(city, weatherResult.value)
-                            is Result.Failure -> CityWithWeather(city, Weather.default)
-                        }
-                    }
-                }.awaitAll()
-                _uiState.value = UiState.Success(citiesWithWeather)
-            } catch (e: Exception) {
-                _uiState.value = UiState.Error("Failed to load weather data")
+        cities.forEach { city ->
+            viewModelScope.launch {
+                val cityWithWeather = when (val weatherResult = getCurrentWeatherUseCase(city.id)) {
+                    is Result.Success -> CityWithWeather(city, weatherResult.value)
+                    is Result.Failure -> CityWithWeather(city, Weather.default)
+                }
+                updateCityWithWeather(cityWithWeather)
             }
         }
     }
+    private fun updateCityWithWeather(updatedCity: CityWithWeather) {
+        val currentState = _uiState.value
+        if (currentState is UiState.Success) {
+            val updatedList = currentState.cityWithWeather.map { city ->
+                if (city.city.id == updatedCity.city.id) updatedCity else city
+            }
+            _uiState.value = UiState.Success(updatedList)
+        }
+    }
+
 
     fun removeCity(cityId: Int) {
         viewModelScope.launch {
