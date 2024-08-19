@@ -6,17 +6,25 @@ import androidx.recyclerview.widget.ListAdapter
 import com.bumptech.glide.Glide
 import com.example.weatherappmy.databinding.ListItemBinding
 import com.example.weatherappmy.presentation.favorites.ui.CityWithWeather
+import javax.inject.Inject
 
 
-class CityListAdapter : ListAdapter<CityWithWeather, CityItemViewHolder>(CityItemDiffCallback()) {
+class CityListAdapter @Inject constructor() :
+    ListAdapter<CityWithWeather, CityItemViewHolder>(CityItemDiffCallback()) {
+
+    var onCityWithWeatherClickListener: ((CityWithWeather) -> Unit)? = null
+
     override fun onBindViewHolder(holder: CityItemViewHolder, position: Int) {
         getItem(position).also { city ->
             with(holder.binding) {
                 cityName.text = city.city.name
-                temperatureText.text = city.weather.time.toString()
+                temperatureText.text = city.weather.tempC.toString()
                 Glide.with(weatherIcon.context)
                     .load(city.weather.conditionUrl)
                     .into(weatherIcon)
+            }
+            holder.itemView.setOnClickListener {
+                onCityWithWeatherClickListener?.invoke(city)
             }
         }
     }

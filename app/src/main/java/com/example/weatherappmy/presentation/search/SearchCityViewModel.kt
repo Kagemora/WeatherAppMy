@@ -8,4 +8,5 @@ class SearchCityViewModel @Inject constructor(
     private val searchCityUseCase: SearchCityUseCase
 ) : ViewModel() {
 
+
 }

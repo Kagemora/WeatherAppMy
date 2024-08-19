@@ -14,11 +14,11 @@ import javax.inject.Inject
 class FavouriteRepositoryImpl @Inject constructor(
     private val favouriteCityDao: FavouriteCityDao
 ) : FavouriteRepository {
-
+    val list = listOf(City(1,"Moscov","Daimon"),City(2,"Dae","Hubo"),City(3,"bd","sd"))
     override fun favouriteCities(): LiveData<Result<List<City>>> {
         return favouriteCityDao.getFavouriteCity().map {
             try {
-                Result.Success(it.toEntities())
+                Result.Success(list)
             } catch (e: Exception) {
                 Result.Failure(e)
             }

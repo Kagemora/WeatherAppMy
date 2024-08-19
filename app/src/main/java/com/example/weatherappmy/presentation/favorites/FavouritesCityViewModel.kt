@@ -13,6 +13,7 @@ import com.example.weatherappmy.domain.usecase.GetFavouriteCitiesUseCase
 import com.example.weatherappmy.domain.util.Result
 import com.example.weatherappmy.presentation.favorites.ui.CityWithWeather
 import com.example.weatherappmy.presentation.favorites.ui.UiState
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
