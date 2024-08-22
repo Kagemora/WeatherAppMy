@@ -22,9 +22,9 @@ class CityListAdapter @Inject constructor() :
                 Glide.with(weatherIcon.context)
                     .load(city.weather.conditionUrl)
                     .into(weatherIcon)
-            }
-            holder.itemView.setOnClickListener {
-                onCityWithWeatherClickListener?.invoke(city)
+                root.setOnClickListener {
+                    onCityWithWeatherClickListener?.invoke(city)
+                }
             }
         }
     }
