@@ -9,22 +9,21 @@ import com.example.weatherappmy.presentation.favorites.ui.CityWithWeather
 import javax.inject.Inject
 
 
-class CityListAdapter @Inject constructor() :
+class CityListAdapter :
     ListAdapter<CityWithWeather, CityItemViewHolder>(CityItemDiffCallback()) {
 
     var onCityWithWeatherClickListener: ((CityWithWeather) -> Unit)? = null
 
     override fun onBindViewHolder(holder: CityItemViewHolder, position: Int) {
-        getItem(position).also { city ->
-            with(holder.binding) {
-                cityName.text = city.city.name
-                temperatureText.text = city.weather.tempC.toString()
-                Glide.with(weatherIcon.context)
-                    .load(city.weather.conditionUrl)
-                    .into(weatherIcon)
-                root.setOnClickListener {
-                    onCityWithWeatherClickListener?.invoke(city)
-                }
+        val city = getItem(position)
+        with(holder.binding) {
+            cityName.text = city.city.name
+            temperatureText.text = city.weather.tempC.toString()
+            Glide.with(weatherIcon.context)
+                .load(city.weather.conditionUrl)
+                .into(weatherIcon)
+            root.setOnClickListener {
+                onCityWithWeatherClickListener?.invoke(city)
             }
         }
     }

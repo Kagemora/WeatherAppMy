@@ -8,19 +8,18 @@ import com.example.weatherappmy.domain.entities.City
 import javax.inject.Inject
 
 
-class CitySearchListAdapter @Inject constructor() :
+class CitySearchListAdapter :
     ListAdapter<City, CitySearchViewHolder>(CitySearchDiffCallback()) {
 
     var onClickCity: ((City) -> Unit)? = null
 
     override fun onBindViewHolder(holder: CitySearchViewHolder, position: Int) {
-        getItem(position).also { city ->
-            with(holder.binding) {
-                textViewCity.text = city.name
-                textViewCountry.text = city.country
-                root.setOnClickListener {
-                    onClickCity?.invoke(city)
-                }
+        val city = getItem(position)
+        with(holder.binding) {
+            textViewCity.text = city.name
+            textViewCountry.text = city.country
+            root.setOnClickListener {
+                onClickCity?.invoke(city)
             }
         }
     }

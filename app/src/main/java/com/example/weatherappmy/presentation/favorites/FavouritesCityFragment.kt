@@ -5,9 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.replace
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -16,8 +14,6 @@ import com.example.weatherappmy.R
 import com.example.weatherappmy.databinding.FragmentFavouritesCityBinding
 import com.example.weatherappmy.presentation.ViewModelFactory
 import com.example.weatherappmy.presentation.favorites.adapter.CityListAdapter
-import com.example.weatherappmy.presentation.favorites.ui.CityWithWeather
-import com.example.weatherappmy.presentation.favorites.ui.UiState
 import com.example.weatherappmy.presentation.search.SearchCityFragment
 import javax.inject.Inject
 
@@ -28,7 +24,6 @@ class FavouritesCityFragment : Fragment() {
 
     private lateinit var viewModel: FavouritesCityViewModel
 
-    @Inject
     lateinit var cityListAdapter: CityListAdapter
 
     @Inject
@@ -51,17 +46,9 @@ class FavouritesCityFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        installAdapter()
         viewModel = ViewModelProvider(this, viewModelFactory)[FavouritesCityViewModel::class.java]
-        setupRecyclerView()
-        observeViewModel()
-        binding.searchCardView.setOnClickListener{
-
-        }
-        binding.extendedFloatingActionButton.setOnClickListener{
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.main,SearchCityFragment.newInstance())
-                .commit()
-        }
+        install()
     }
 
     override fun onDestroyView() {
@@ -69,46 +56,29 @@ class FavouritesCityFragment : Fragment() {
         _binding = null
     }
 
+    private fun install() {
+        observeViewModel()
+        listeners()
+    }
+
+    private fun listeners() {
+        binding.searchCardView.setOnClickListener {
+            launchSearchCityFragment()
+        }
+        binding.extendedFloatingActionButton.setOnClickListener {
+            launchSearchCityFragmentAdd()
+        }
+    }
+
     private fun observeViewModel() {
-        viewModel.uiState.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is UiState.Loading -> showLoading()
-                is UiState.Success -> showCities(state.cityWithWeather)
-                is UiState.Error -> showError(state.error)
-                is UiState.Empty -> showEmptyState()
-            }
-        }
-        viewModel.toastMessage.observe(viewLifecycleOwner) { message ->
-            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-        }
+
     }
 
-    private fun showLoading() {
-        binding.progressBar.visibility = View.VISIBLE
-        binding.recyclerView.visibility = View.GONE
-    }
-
-    private fun showCities(cities: List<CityWithWeather>) {
-        binding.progressBar.visibility = View.GONE
-        binding.recyclerView.visibility = View.VISIBLE
-        cityListAdapter.submitList(cities)
-    }
-
-    private fun showError(error: String) {
-        binding.progressBar.visibility = View.GONE
-        binding.recyclerView.visibility = View.VISIBLE
-        Toast.makeText(requireContext(), error, Toast.LENGTH_LONG).show()
-    }
-
-    private fun showEmptyState() {
-        binding.progressBar.visibility = View.GONE
-        binding.recyclerView.visibility = View.GONE
-    }
-
-    private fun setupRecyclerView() {
+    private fun installAdapter() {
+        cityListAdapter = CityListAdapter()
         binding.recyclerView.adapter = cityListAdapter
         setupSwipeListener(binding.recyclerView)
-        setupClickListener()
+        setupClickListenerViewHolder()
     }
 
     private fun setupSwipeListener(cityC: RecyclerView) {
@@ -125,18 +95,35 @@ class FavouritesCityFragment : Fragment() {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val item = cityListAdapter.currentList[viewHolder.adapterPosition]
-                viewModel.removeCity(item.city.id)
+                val position = viewHolder.bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val item = cityListAdapter.currentList[position]
+                    viewModel.removeCity(item.city.id)
+                }
             }
         }
         val itemTouchHelper = ItemTouchHelper(callback)
         itemTouchHelper.attachToRecyclerView(cityC)
     }
 
-    private fun setupClickListener() {
+    private fun setupClickListenerViewHolder() {
         cityListAdapter.onCityWithWeatherClickListener = {
 
         }
+    }
+
+    private fun launchSearchCityFragment() {
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.main, SearchCityFragment.newInstanceAddCity())
+            .addToBackStack(null)
+            .commit()
+    }
+
+    private fun launchSearchCityFragmentAdd() {
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.main, SearchCityFragment.newInstanceSearchCity())
+            .addToBackStack(null)
+            .commit()
     }
 
     companion object {
