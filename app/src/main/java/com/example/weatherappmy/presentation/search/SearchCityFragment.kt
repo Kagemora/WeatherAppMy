@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.weatherappmy.App
 import com.example.weatherappmy.databinding.FragmentSearchCityBinding
 import com.example.weatherappmy.presentation.ViewModelFactory
@@ -65,6 +66,7 @@ class SearchCityFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         installAdapter()
+        viewModel = ViewModelProvider(this, viewModelFactory)[SearchCityViewModel::class.java]
     }
 
     override fun onDestroyView() {
@@ -79,7 +81,9 @@ class SearchCityFragment : Fragment() {
     }
 
     private fun setupClickListenerViewHolder() {
+        adapter.onClickCity = {
 
+        }
     }
 
 }

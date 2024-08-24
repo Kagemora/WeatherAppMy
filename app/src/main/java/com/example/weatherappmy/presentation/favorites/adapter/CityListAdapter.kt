@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.ListAdapter
 import com.bumptech.glide.Glide
 import com.example.weatherappmy.databinding.ListItemBinding
 import com.example.weatherappmy.presentation.favorites.ui.CityWithWeather
-import javax.inject.Inject
 
 
 class CityListAdapter :

@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.example.weatherappmy.databinding.ListCitySearchBinding
 import com.example.weatherappmy.domain.entities.City
-import javax.inject.Inject
 
 
 class CitySearchListAdapter :

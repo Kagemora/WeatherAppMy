@@ -32,6 +32,10 @@ class FavouritesCityFragment : Fragment() {
         (requireActivity().application as App).appComponent
     }
 
+    companion object {
+        fun newInstance() = FavouritesCityFragment()
+    }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         component.inject(this)
@@ -126,7 +130,5 @@ class FavouritesCityFragment : Fragment() {
             .commit()
     }
 
-    companion object {
-        fun newInstance() = FavouritesCityFragment()
-    }
+
 }
