@@ -9,6 +9,6 @@ class CityItemDiffCallback : DiffUtil.ItemCallback<CityWithWeather>() {
     }
 
     override fun areItemsTheSame(oldItem: CityWithWeather, newItem: CityWithWeather): Boolean {
-        return oldItem.city.id == newItem.city.id
+        return oldItem == newItem
     }
 }

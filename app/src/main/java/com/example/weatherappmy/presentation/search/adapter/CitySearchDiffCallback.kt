@@ -9,6 +9,6 @@ class CitySearchDiffCallback : DiffUtil.ItemCallback<City>() {
     }
 
     override fun areItemsTheSame(oldItem: City, newItem: City): Boolean {
-        return oldItem.id == newItem.id
+        return oldItem == newItem
     }
 }
