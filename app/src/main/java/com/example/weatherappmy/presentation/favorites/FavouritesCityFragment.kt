@@ -24,7 +24,7 @@ class FavouritesCityFragment : Fragment() {
 
     private lateinit var viewModel: FavouritesCityViewModel
 
-    lateinit var cityListAdapter: CityListAdapter
+    private lateinit var cityListAdapter: CityListAdapter
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -57,21 +57,14 @@ class FavouritesCityFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        binding.recyclerView.adapter = null
+        cityListAdapter.onCityWithWeatherClickListener = null
         _binding = null
     }
 
     private fun install() {
         observeViewModel()
         listeners()
-    }
-
-    private fun listeners() {
-        binding.searchCardView.setOnClickListener {
-            launchSearchCityFragment()
-        }
-        binding.extendedFloatingActionButton.setOnClickListener {
-            launchSearchCityFragmentAdd()
-        }
     }
 
     private fun observeViewModel() {
@@ -128,6 +121,14 @@ class FavouritesCityFragment : Fragment() {
             .replace(R.id.main, SearchCityFragment.newInstanceSearchCity())
             .addToBackStack(null)
             .commit()
+    }
+    private fun listeners() {
+        binding.searchCardView.setOnClickListener {
+            launchSearchCityFragment()
+        }
+        binding.extendedFloatingActionButton.setOnClickListener {
+            launchSearchCityFragmentAdd()
+        }
     }
 
 

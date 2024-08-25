@@ -71,6 +71,8 @@ class SearchCityFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        binding.recyclerView.adapter = null
+        adapter.onClickCity = null
         _binding = null
     }
 
