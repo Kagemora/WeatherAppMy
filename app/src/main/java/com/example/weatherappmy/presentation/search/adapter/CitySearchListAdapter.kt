@@ -7,10 +7,10 @@ import com.example.weatherappmy.databinding.ListCitySearchBinding
 import com.example.weatherappmy.domain.entities.City
 
 
-class CitySearchListAdapter :
-    ListAdapter<City, CitySearchViewHolder>(CitySearchDiffCallback()) {
-
+class CitySearchListAdapter(
     var onClickCity: ((City) -> Unit)? = null
+) : ListAdapter<City, CitySearchViewHolder>(CitySearchDiffCallback()) {
+
 
     override fun onBindViewHolder(holder: CitySearchViewHolder, position: Int) {
         val city = getItem(position)

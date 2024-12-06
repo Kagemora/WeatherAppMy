@@ -1,9 +1,9 @@
 package com.example.weatherappmy.presentation.weather.ui
 
-import com.example.weatherappmy.domain.entities.DailyForecast
+import com.example.weatherappmy.domain.entities.DailyWeather
 
 sealed class UiStateDailyWeather {
-    object Loading : UiStateDailyWeather()
-    data class Success(val dailyForecast: List<DailyForecast>) : UiStateDailyWeather()
+    data object Loading : UiStateDailyWeather()
+    data class Success(val dailyWeather: List<DailyWeather>) : UiStateDailyWeather()
     data class Error(val error: String) : UiStateDailyWeather()
 }

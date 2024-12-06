@@ -10,9 +10,8 @@ import com.example.weatherappmy.domain.entities.HourlyWeather
 import com.example.weatherappmy.domain.entities.Weather
 import java.util.Calendar
 import java.util.Date
-import javax.inject.Inject
 
-class WeatherMapper @Inject constructor() {
+class Test {
 
     fun mapToWeather(currentWeatherWithForecastDto: CurrentWeatherWithForecastDto): Weather =
         Weather(
@@ -25,7 +24,7 @@ class WeatherMapper @Inject constructor() {
         )
 
 
-    fun mapToCurrentWeather(currentWeatherDto: CurrentWeatherDto): CurrentWeather =
+    private fun mapToCurrentWeather(currentWeatherDto: CurrentWeatherDto): CurrentWeather =
         CurrentWeather(
             condition = currentWeatherDto.condition.text,
             time = currentWeatherDto.time.toCalendar(),
@@ -56,4 +55,5 @@ class WeatherMapper @Inject constructor() {
         oldValue = "64x64",
         newValue = "128x128"
     )
+
 }

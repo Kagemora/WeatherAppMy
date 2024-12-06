@@ -2,6 +2,7 @@ package com.example.weatherappmy.presentation.favorites
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +25,7 @@ class FavouritesCityFragment : Fragment() {
 
     private lateinit var viewModel: FavouritesCityViewModel
 
-    private lateinit var cityListAdapter: CityListAdapter
+    private var cityListAdapter: CityListAdapter? = null
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -57,8 +58,7 @@ class FavouritesCityFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding.recyclerView.adapter = null
-        cityListAdapter.onCityWithWeatherClickListener = null
+
         _binding = null
     }
 
@@ -75,7 +75,6 @@ class FavouritesCityFragment : Fragment() {
         cityListAdapter = CityListAdapter()
         binding.recyclerView.adapter = cityListAdapter
         setupSwipeListener(binding.recyclerView)
-        setupClickListenerViewHolder()
     }
 
     private fun setupSwipeListener(cityC: RecyclerView) {
@@ -94,19 +93,15 @@ class FavouritesCityFragment : Fragment() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.bindingAdapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    val item = cityListAdapter.currentList[position]
-                    viewModel.removeCity(item.city.id)
+                    cityListAdapter?.let {
+                        val item = it.currentList[position]
+
+                    }
                 }
             }
         }
         val itemTouchHelper = ItemTouchHelper(callback)
         itemTouchHelper.attachToRecyclerView(cityC)
-    }
-
-    private fun setupClickListenerViewHolder() {
-        cityListAdapter.onCityWithWeatherClickListener = {
-
-        }
     }
 
     private fun launchSearchCityFragment() {

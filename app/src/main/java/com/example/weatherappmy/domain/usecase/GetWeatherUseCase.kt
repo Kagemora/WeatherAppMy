@@ -4,8 +4,8 @@ import com.example.weatherappmy.domain.repository.WeatherRepository
 import javax.inject.Inject
 
 //обновление текущего прогноза
-class GetForecastUseCase @Inject constructor(
+class GetWeatherUseCase @Inject constructor(
     private val repository: WeatherRepository
 ) {
-    suspend operator fun invoke(cityId: Int) = repository.getForecast(cityId)
+    suspend operator fun invoke(cityId: Int) = repository.getWeather(cityId)
 }

@@ -1,16 +1,13 @@
 package com.example.weatherappmy.presentation.weather
 
 import android.content.Context
-import androidx.fragment.app.viewModels
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModel
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.weatherappmy.App
-import com.example.weatherappmy.R
 import com.example.weatherappmy.databinding.FragmentCurrentWeatherBinding
 import com.example.weatherappmy.presentation.ViewModelFactory
 import javax.inject.Inject

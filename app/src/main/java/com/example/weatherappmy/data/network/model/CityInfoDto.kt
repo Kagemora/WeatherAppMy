@@ -1,8 +1,8 @@
-package com.example.weatherappmy.data.network.model.citysearch
+package com.example.weatherappmy.data.network.model
 
 import com.google.gson.annotations.SerializedName
 
-data class CityDto(
+data class CityInfoDto(
     @SerializedName("id")
     var id: Int,
     @SerializedName("name")

@@ -10,3 +10,4 @@ data class CityDbModel(
     val name: String,
     val country: String
 )
+

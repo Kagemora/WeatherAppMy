@@ -20,7 +20,7 @@ class SearchCityFragment : Fragment() {
     private val component by lazy {
         (requireActivity().application as App).appComponent
     }
-    private lateinit var adapter: CitySearchListAdapter
+    private var adapter: CitySearchListAdapter? = null
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -72,7 +72,7 @@ class SearchCityFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         binding.recyclerView.adapter = null
-        adapter.onClickCity = null
+        adapter?.onClickCity = null
         _binding = null
     }
 
@@ -83,7 +83,7 @@ class SearchCityFragment : Fragment() {
     }
 
     private fun setupClickListenerViewHolder() {
-        adapter.onClickCity = {
+        adapter?.onClickCity = {
 
         }
     }

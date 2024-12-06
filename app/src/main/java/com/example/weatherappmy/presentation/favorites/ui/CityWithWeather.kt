@@ -1,9 +1,9 @@
 package com.example.weatherappmy.presentation.favorites.ui
 
 import com.example.weatherappmy.domain.entities.City
-import com.example.weatherappmy.domain.entities.Weather
+import com.example.weatherappmy.domain.entities.CurrentWeather
 
 data class CityWithWeather(
     val city: City,
-    val weather: Weather
+    val currentWeather: CurrentWeather
 )

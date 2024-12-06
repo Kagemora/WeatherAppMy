@@ -3,29 +3,30 @@ package com.example.weatherappmy.data.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import com.example.weatherappmy.data.cache.FavouriteCityDao
-import com.example.weatherappmy.data.mapper.toDbModel
-import com.example.weatherappmy.data.mapper.toEntities
+import com.example.weatherappmy.data.mapper.CityMapper
 import com.example.weatherappmy.data.util.safeCall
-import com.example.weatherappmy.domain.util.Result
 import com.example.weatherappmy.domain.entities.City
 import com.example.weatherappmy.domain.repository.FavouriteRepository
+import com.example.weatherappmy.domain.util.Result
 import javax.inject.Inject
 
 class FavouriteRepositoryImpl @Inject constructor(
+    private val cityMapper: CityMapper,
     private val favouriteCityDao: FavouriteCityDao
 ) : FavouriteRepository {
-    val list = listOf(City(1,"Moscov","Daimon"),City(2,"Dae","Hubo"),City(3,"bd","sd"))
+    val list = listOf(City(1, "Moscov", "Daimon"), City(2, "Dae", "Hubo"), City(3, "bd", "sd"))
     override fun favouriteCities(): LiveData<Result<List<City>>> {
         return favouriteCityDao.getFavouriteCity().map {
             try {
-                Result.Success(list)
+                val data = cityMapper.toEntitiesFromDb(it)
+                Result.Success(data)
             } catch (e: Exception) {
                 Result.Failure(e)
             }
         }
     }
 
-    override fun observeIsFavourite(cityId: Int): LiveData<Result<Boolean>> {
+    override fun isCityFavourite(cityId: Int): LiveData<Result<Boolean>> {
         return favouriteCityDao.getObserveIsCity(cityId).map {
             try {
                 Result.Success(it)
@@ -37,7 +38,8 @@ class FavouriteRepositoryImpl @Inject constructor(
 
     override suspend fun addToFavourite(cityId: City): Result<Unit> {
         return safeCall {
-            favouriteCityDao.addCity(cityId.toDbModel())
+            val data = cityMapper.toDbModel(cityId)
+            favouriteCityDao.addCity(data)
         }
 
     }

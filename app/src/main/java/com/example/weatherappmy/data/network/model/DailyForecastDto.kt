@@ -1,12 +1,12 @@
-package com.example.weatherappmy.data.network.model.forecast
+package com.example.weatherappmy.data.network.model
 
 import com.google.gson.annotations.SerializedName
 
-data class ForecastDayDto(
+data class DailyForecastDto(
     @SerializedName("date_epoch")
     val time: Long,
     @SerializedName("day")
-    val day: DayDto,
+    val day: DayWeatherDto,
     @SerializedName("hour")
-    val hour: List<HoursDto>
+    val hour: List<HoursWeatherDto>
 )

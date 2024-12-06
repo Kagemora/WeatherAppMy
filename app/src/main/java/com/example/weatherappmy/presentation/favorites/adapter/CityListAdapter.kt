@@ -8,18 +8,18 @@ import com.example.weatherappmy.databinding.ListItemBinding
 import com.example.weatherappmy.presentation.favorites.ui.CityWithWeather
 
 
-class CityListAdapter :
+class CityListAdapter(
+    private var onCityWithWeatherClickListener: ((CityWithWeather) -> Unit)? = null
+) :
     ListAdapter<CityWithWeather, CityItemViewHolder>(CityItemDiffCallback()) {
-
-    var onCityWithWeatherClickListener: ((CityWithWeather) -> Unit)? = null
 
     override fun onBindViewHolder(holder: CityItemViewHolder, position: Int) {
         val city = getItem(position)
         with(holder.binding) {
             cityName.text = city.city.name
-            temperatureText.text = city.weather.tempC.toString()
+            temperatureText.text = city.currentWeather.tempC.toString()
             Glide.with(weatherIcon.context)
-                .load(city.weather.conditionUrl)
+                .load(city.currentWeather.conditionUrl)
                 .into(weatherIcon)
             root.setOnClickListener {
                 onCityWithWeatherClickListener?.invoke(city)

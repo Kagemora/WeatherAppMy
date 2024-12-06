@@ -2,8 +2,8 @@ package com.example.weatherappmy.domain.entities
 
 import java.util.Calendar
 
-//прогноз по дням
-data class DailyForecast (
+//почасовой прогноз
+data class HourlyWeather(
     val time: Calendar,
     val condition: String,
     val conditionUrl: String,

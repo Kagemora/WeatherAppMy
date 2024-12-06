@@ -5,7 +5,7 @@ import com.example.weatherappmy.domain.repository.FavouriteRepository
 import javax.inject.Inject
 
 //добавление / удаление городов
-class ChangeFavouriteStateUseCase @Inject constructor(
+class AddRemoveFavouriteCityUseCase @Inject constructor(
     private val repository: FavouriteRepository
 ) {
     suspend fun addToFavourite(city: City) = repository.addToFavourite(city)
