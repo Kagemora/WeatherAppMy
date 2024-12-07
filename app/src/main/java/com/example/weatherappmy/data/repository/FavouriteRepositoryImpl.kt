@@ -14,12 +14,12 @@ class FavouriteRepositoryImpl @Inject constructor(
     private val cityMapper: CityMapper,
     private val favouriteCityDao: FavouriteCityDao
 ) : FavouriteRepository {
-    val list = listOf(City(1, "Moscov", "Daimon"), City(2, "Dae", "Hubo"), City(3, "bd", "sd"))
+    val list = listOf(City(1, "Moscow", "Russia"), City(2, "Dubai", "United Arab Emirates"), City(3, "New York", "United States of America"))
     override fun favouriteCities(): LiveData<Result<List<City>>> {
         return favouriteCityDao.getFavouriteCity().map {
             try {
                 val data = cityMapper.toEntitiesFromDb(it)
-                Result.Success(data)
+                Result.Success(list)
             } catch (e: Exception) {
                 Result.Failure(e)
             }

@@ -1,9 +1,7 @@
 package com.example.weatherappmy.presentation.search.ui
 
-import com.example.weatherappmy.domain.entities.City
-
 sealed class UiStateCitySearch {
-    object Loading : UiStateCitySearch()
-    data class Success(val city: List<City>) : UiStateCitySearch()
+    data object Loading : UiStateCitySearch()
+    data class Success<out T>(val city: T) : UiStateCitySearch()
     data class Error(val error: String) : UiStateCitySearch()
 }

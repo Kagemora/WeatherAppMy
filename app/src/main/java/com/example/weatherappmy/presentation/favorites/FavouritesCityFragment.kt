@@ -15,6 +15,7 @@ import com.example.weatherappmy.R
 import com.example.weatherappmy.databinding.FragmentFavouritesCityBinding
 import com.example.weatherappmy.presentation.ViewModelFactory
 import com.example.weatherappmy.presentation.favorites.adapter.CityListAdapter
+import com.example.weatherappmy.presentation.favorites.ui.UIState
 import com.example.weatherappmy.presentation.search.SearchCityFragment
 import javax.inject.Inject
 
@@ -23,15 +24,14 @@ class FavouritesCityFragment : Fragment() {
     private var _binding: FragmentFavouritesCityBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var viewModel: FavouritesCityViewModel
-
-    private var cityListAdapter: CityListAdapter? = null
-
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private val component by lazy {
         (requireActivity().application as App).appComponent
     }
+    private lateinit var viewModel: FavouritesCityViewModel
+
+    private var cityListAdapter: CityListAdapter? = null
 
     companion object {
         fun newInstance() = FavouritesCityFragment()
@@ -68,7 +68,13 @@ class FavouritesCityFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-
+        viewModel.favouriteCitiesState.observe(viewLifecycleOwner) {
+            when (it) {
+                is UIState.Success -> cityListAdapter?.submitList(it.citiesWithWeather)
+                is UIState.Loading -> ""
+                is UIState.Error -> ""
+            }
+        }
     }
 
     private fun installAdapter() {
@@ -117,6 +123,7 @@ class FavouritesCityFragment : Fragment() {
             .addToBackStack(null)
             .commit()
     }
+
     private fun listeners() {
         binding.searchCardView.setOnClickListener {
             launchSearchCityFragment()
